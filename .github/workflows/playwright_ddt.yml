@@ -3,8 +3,7 @@ name: Playwright DDT Login Tests
 on:
   push:
     branches: [ main ]
-  schedule:
-    - cron: '0 8 * * *'
+  workflow_dispatch: # Esto le permite ejecutar la prueba manualmente desde la web
 
 jobs:
   test:
@@ -23,20 +22,18 @@ jobs:
       - name: Instalar navegadores Playwright
         run: npx playwright install --with-deps
 
-        # 🚨 EJECUCIÓN CON VARIABLE DE ENTORNO 🚨
       - name: Ejecutar pruebas de Login DDT
-        run: npx playwright test login_ddt.spec.js
+        # Agregamos el reporter HTML para la Fase de Reportes
+        run: npx playwright test login_ddt.spec.js --reporter=html
         env:
-          # Aquí conectamos la variable de GitHub con el nombre que usamos en el JS
+          # ✅ Aquí forzamos que use la variable URL_PRODUCCION de sus Settings
           URL_AMBIENTE: ${{ vars.URL_PRODUCCION }}
 
-      - name: Ejecutar pruebas de Login DDT
-        run: npx playwright test login_ddt.spec.js
-
-      - name: Subir reportes
+      # ✅ PASO NUEVO: Guardar el reporte para verlo después
+      - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
-        if: always()
+        if: always() # Se ejecuta aunque la prueba falle
         with:
-          name: playwright-reportes
+          name: reporte-playwright
           path: playwright-report/
           retention-days: 7
