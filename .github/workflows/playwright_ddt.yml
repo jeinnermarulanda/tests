@@ -1,0 +1,35 @@
+name: Playwright DDT Login Tests
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Instalar navegadores Playwright
+        run: npx playwright install --with-deps
+
+      - name: Ejecutar pruebas de Login DDT
+        run: npx playwright test tests/login_ddt.spec.js
+
+      - name: Subir reportes
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-reportes
+          path: playwright-report/
+          retention-days: 7
