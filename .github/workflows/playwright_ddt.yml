@@ -23,6 +23,13 @@ jobs:
       - name: Instalar navegadores Playwright
         run: npx playwright install --with-deps
 
+        # 🚨 EJECUCIÓN CON VARIABLE DE ENTORNO 🚨
+      - name: Ejecutar pruebas de Login DDT
+        run: npx playwright test login_ddt.spec.js
+        env:
+          # Aquí conectamos la variable de GitHub con el nombre que usamos en el JS
+          URL_AMBIENTE: ${{ vars.URL_PRODUCCION }}
+
       - name: Ejecutar pruebas de Login DDT
         run: npx playwright test login_ddt.spec.js
 
