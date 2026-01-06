@@ -1,0 +1,23 @@
+[
+    {
+        "id": "TC_001_EXITO",
+        "username": "tomsmith",
+        "password": "SuperSecretPassword!",
+        "expected_text": "You logged into a secure area", 
+        "expected_type": "success"
+    },
+    {
+        "id": "TC_002_FALLO_PASS",
+        "username": "tomsmith",
+        "password": "wrongpassword",
+        "expected_text": "your password is invalid", 
+        "expected_type": "error"
+    },
+    {
+        "id": "TC_003_FALLO_USER",
+        "username": "wronguser",
+        "password": "SuperSecretPassword!",
+        "expected_text": "username is invalid",
+        "expected_type": "error"
+    }
+]
