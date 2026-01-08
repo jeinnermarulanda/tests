@@ -3,20 +3,17 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch: 
-  # ✅ Programación automática (Cron Job)
   schedule:
-    - cron: '0 8 * * *' # Todos los días a las 08:00 UTC
+    - cron: '0 8 * * *' # Todos los días a las 08:00 UTC (Ajuste según su país)
 
 jobs:
   test:
-    # ✅ EL INTERRUPTOR: Solo corre si la variable RUN_TESTS es 'true'
-    # O si usted lo activa manualmente con workflow_dispatch
+    # ✅ El interruptor maestro
     if: github.event_name == 'workflow_dispatch' || vars.RUN_TESTS == 'true'
     
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
+    
     env:
       BASE_URL: ${{ vars.URL_PRODUCCION }} 
 
@@ -29,16 +26,14 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ PASO CRÍTICO: Forzamos permisos de ejecución en los binarios
       - name: Dar permisos de ejecución
         run: chmod +x ./node_modules/.bin/playwright
 
       - name: Install Playwright Browsers
-        # Usamos la ruta directa que acabamos de autorizar
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        # Forzamos a Playwright a ignorar cualquier configuración previa y ejecutar el archivo directamente
+        # ✅ Usamos el comando que ya nos dio el éxito verde anteriormente
         run: npx playwright test ./login_ddt.spec.js --project=chromium --reporter=list,html
 
       - name: Subir Reporte HTML
