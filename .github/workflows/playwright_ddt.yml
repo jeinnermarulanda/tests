@@ -29,7 +29,8 @@ jobs:
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        run: ./node_modules/.bin/playwright test --reporter=html
+        # ✅ Especificamos el nombre exacto de su archivo de pruebas
+        run: npx playwright test login_ddt.spec.js --reporter=html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
