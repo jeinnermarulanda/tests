@@ -4,7 +4,7 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   // 1. ORGANIZACIÓN: Definimos dónde están los tests para que el comando sea más limpio
-  testDir: './tests',
+  testDir: '.',
   
   // 2. PARALELISMO: Aprovechamos los núcleos de la PC o del servidor de GitHub
   fullyParallel: true,
