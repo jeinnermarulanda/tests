@@ -39,6 +39,8 @@ jobs:
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
         if: always() 
+
+        # configurando
         with:
           name: reporte-playwright
           path: playwright-report/
