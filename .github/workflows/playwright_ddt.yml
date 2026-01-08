@@ -20,11 +20,16 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
+      # ✅ PASO CRÍTICO: Forzamos permisos de ejecución en los binarios
+      - name: Dar permisos de ejecución
+        run: chmod +x ./node_modules/.bin/playwright
+
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        # Usamos la ruta directa que acabamos de autorizar
+        run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        run: npx playwright test --reporter=html
+        run: ./node_modules/.bin/playwright test --reporter=html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
