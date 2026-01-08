@@ -9,7 +9,7 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    # Centralizamos la variable aquí para todo el JOB
+    # 1. UNIFICACIÓN: Usamos el nombre BASE_URL que el config.js espera leer
     env:
       BASE_URL: ${{ vars.URL_PRODUCCION }} 
 
@@ -26,7 +26,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Ejecutar pruebas de Login DDT
-        # Eliminamos la declaración duplicada de env aquí abajo para usar la global
+        # 2. SIMPLICIDAD: Al ya tener la BASE_URL arriba, el comando queda limpio
         run: npx playwright test login_ddt.spec.js --reporter=html
 
       - name: Subir Reporte HTML
