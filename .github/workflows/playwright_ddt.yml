@@ -20,12 +20,11 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ SOLUCIÓN MAESTRA: Instalamos usando el comando global
+      # ✅ Esta línea usa el comando global que SI tiene permisos en GitHub
       - name: Install Playwright Browsers
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        # Agregamos 'sh' para asegurar que el intérprete de comandos tenga el control
         run: npx playwright test --reporter=html
 
       - name: Subir Reporte HTML
@@ -34,4 +33,5 @@ jobs:
         with:
           name: reporte-playwright
           path: playwright-report/
+          retention-days: 7
           retention-days: 7
