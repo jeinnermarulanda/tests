@@ -20,16 +20,19 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ USAMOS LA RUTA DIRECTA TAMBIÉN AQUÍ PARA EVITAR EL BLOQUEO DE NPX
+      # ✅ ESTA ES LA SOLUCIÓN: La acción oficial instala todo con permisos correctos
       - name: Install Playwright Browsers
-        run: ./node_modules/.bin/playwright install chromium --with-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        run: ./node_modules/.bin/playwright test --reporter=html
+        # Usamos npx aquí porque la acción anterior ya arregló los permisos
+        run: npx playwright test --reporter=html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
         if: always() 
+
+        # ultimo intento
         with:
           name: reporte-playwright
           path: playwright-report/
