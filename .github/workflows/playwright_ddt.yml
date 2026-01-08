@@ -29,8 +29,9 @@ jobs:
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        # ✅ Forzamos a Playwright a mirar el archivo específico en la raíz
-        run: npx playwright test ./login_ddt.spec.js --reporter=html
+        # ✅ Usamos la bandera -c /dev/null para ignorar configs restrictivas
+        # y forzamos la busqueda en el directorio actual
+        run: npx playwright test . --config=playwright.config.js --reporter=html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
