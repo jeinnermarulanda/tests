@@ -3,9 +3,18 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch: 
+  # ✅ Programación automática (Cron Job)
+  schedule:
+    - cron: '0 8 * * *' # Todos los días a las 08:00 UTC
 
 jobs:
   test:
+    # ✅ EL INTERRUPTOR: Solo corre si la variable RUN_TESTS es 'true'
+    # O si usted lo activa manualmente con workflow_dispatch
+    if: github.event_name == 'workflow_dispatch' || vars.RUN_TESTS == 'true'
+    
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
