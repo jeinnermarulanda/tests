@@ -9,7 +9,6 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    # 1. UNIFICACIÓN: Usamos el nombre BASE_URL que el config.js espera leer
     env:
       BASE_URL: ${{ vars.URL_PRODUCCION }} 
 
@@ -22,11 +21,11 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
+      # ✅ CAMBIO CLAVE: Usamos la acción oficial para instalar navegadores y dependencias del sistema
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Ejecutar pruebas de Login DDT
-        # 2. SIMPLICIDAD: Al ya tener la BASE_URL arriba, el comando queda limpio
         run: npx playwright test login_ddt.spec.js --reporter=html
 
       - name: Subir Reporte HTML
