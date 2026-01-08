@@ -20,19 +20,17 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ ESTA ES LA SOLUCIÓN: La acción oficial instala todo con permisos correctos
+      # ✅ SOLUCIÓN MAESTRA: Instalamos usando el comando global
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium --with-deps
 
       - name: Ejecutar pruebas de Login DDT
-        # Usamos npx aquí porque la acción anterior ya arregló los permisos
+        # Agregamos 'sh' para asegurar que el intérprete de comandos tenga el control
         run: npx playwright test --reporter=html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
         if: always() 
-
-        # ultimo intento
         with:
           name: reporte-playwright
           path: playwright-report/
