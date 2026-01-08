@@ -22,8 +22,8 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Instalar navegadores Playwright
-        run: npx playwright install chromium --with-deps
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Ejecutar pruebas de Login DDT
         # 2. SIMPLICIDAD: Al ya tener la BASE_URL arriba, el comando queda limpio
