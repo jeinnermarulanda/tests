@@ -3,12 +3,15 @@ name: Playwright DDT Login Tests
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Esto le permite ejecutar la prueba manualmente desde la web
+  workflow_dispatch: 
 
 jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    # Centralizamos la variable aquí para todo el JOB
+    env:
+      BASE_URL: ${{ vars.URL_PRODUCCION }} 
 
     steps:
       - uses: actions/checkout@v4
@@ -23,16 +26,12 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Ejecutar pruebas de Login DDT
-        # Agregamos el reporter HTML para la Fase de Reportes
+        # Eliminamos la declaración duplicada de env aquí abajo para usar la global
         run: npx playwright test login_ddt.spec.js --reporter=html
-        env:
-          # ✅ Aquí forzamos que use la variable URL_PRODUCCION de sus Settings
-          URL_AMBIENTE: ${{ vars.URL_PRODUCCION }}
 
-      # ✅ PASO NUEVO: Guardar el reporte para verlo después
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
-        if: always() # Se ejecuta aunque la prueba falle
+        if: always() 
         with:
           name: reporte-playwright
           path: playwright-report/
