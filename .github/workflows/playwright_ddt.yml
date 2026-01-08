@@ -20,7 +20,7 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ CAMBIO DEFINITIVO: Usamos el comando directo de la carpeta bin
+      # ✅ USAMOS LA RUTA DIRECTA TAMBIÉN AQUÍ PARA EVITAR EL BLOQUEO DE NPX
       - name: Install Playwright Browsers
         run: ./node_modules/.bin/playwright install chromium --with-deps
 
