@@ -1,21 +1,20 @@
 // tests/login_ddt.spec.js
-// tests/login_ddt.spec.js
-
-// tests/login_ddt.spec.js
 
 const { test, expect } = require('@playwright/test');
 const data = require('./login_data.json'); // Asegúrese de que la ruta sea correcta
 
-const LOGIN_URL = 'https://the-internet.herokuapp.com/login';
+// Si existe la variable en GitHub/Terminal, úsala; si no, usa la local del .env o una fija.
+const LOGIN_URL = process.env.BASE_URL || 'https://the-internet.herokuapp.com/login';
 
 // Iterar sobre cada objeto de datos en el archivo JSON
 for (const testData of data) {
     
-    test(`[${testData.id}] Login con ${testData.username} - Resultado Esperado: ${testData.expected_type}`, async ({ page }) => {
+    //test(`[${testData.id}] Login con ${testData.username} - Resultado Esperado: ${testData.expected_type}`, async ({ page }) => {
+    test(`[${testData.id}] Flujo Extendido - Resultado ${testData.expected_type}`, async ({ page, baseURL }) => {    
         
         console.log(`Ejecutando ID: ${testData.id}`);
 
-        await page.goto(LOGIN_URL);
+        await page.goto(baseURL);
         
         // 1. Rellenar campos usando los datos del JSON
         await page.locator('#username').fill(testData.username);
