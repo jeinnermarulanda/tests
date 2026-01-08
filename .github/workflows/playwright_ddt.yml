@@ -1,5 +1,4 @@
 name: Playwright DDT Login Tests
-
 on:
   push:
     branches: [ main ]
@@ -21,17 +20,9 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ CAMBIO CLAVE: Usamos la acción oficial para instalar navegadores y dependencias del sistema
+      # ✅ USAMOS EL COMANDO DIRECTO PARA EVITAR "PERMISSION DENIED"
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium --with-deps
 
       - name: Ejecutar pruebas de Login DDT
-        run: npx playwright test login_ddt.spec.js --reporter=html
-
-      - name: Subir Reporte HTML
-        uses: actions/upload-artifact@v4
-        if: always() 
-        with:
-          name: reporte-playwright
-          path: playwright-report/
-          retention-days: 7
+        run: npx playwright test --reporter=html
