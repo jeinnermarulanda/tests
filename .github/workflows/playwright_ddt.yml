@@ -2,7 +2,7 @@ name: Playwright DDT Login Tests
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch: 
 
 jobs:
   test:
@@ -20,9 +20,17 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      # ✅ USAMOS EL COMANDO DIRECTO PARA EVITAR "PERMISSION DENIED"
+      # ✅ CAMBIO DEFINITIVO: Usamos el comando directo de la carpeta bin
       - name: Install Playwright Browsers
-        run: npx playwright install chromium --with-deps
+        run: ./node_modules/.bin/playwright install chromium --with-deps
 
       - name: Ejecutar pruebas de Login DDT
-        run: npx playwright test --reporter=html
+        run: ./node_modules/.bin/playwright test --reporter=html
+
+      - name: Subir Reporte HTML
+        uses: actions/upload-artifact@v4
+        if: always() 
+        with:
+          name: reporte-playwright
+          path: playwright-report/
+          retention-days: 7
