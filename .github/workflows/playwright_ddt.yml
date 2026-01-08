@@ -30,7 +30,7 @@ jobs:
 
       - name: Ejecutar pruebas de Login DDT
         # Forzamos a Playwright a ignorar cualquier configuración previa y ejecutar el archivo directamente
-        run: npx playwright test ./login_ddt.spec.js --project=chromium --reporter=list,htmll
+        run: npx playwright test ./login_ddt.spec.js --project=chromium --reporter=list,html
 
       - name: Subir Reporte HTML
         uses: actions/upload-artifact@v4
